@@ -12,6 +12,27 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState(1);
   const router = useRouter();
 
+  const exportToCSV = () => {
+    const headers = ['Action Type', 'Timestamp', 'User ID', 'Role'];
+    const csvRows = logs.map(log => [
+      log.actionType,
+      new Date(log.timestamp).toLocaleString(),
+      log.userId,
+      log.role,
+    ]);
+
+    let csvContent = 'data:text/csv;charset=utf-8,';
+    csvContent += headers.join(',') + '\n'; 
+    csvContent += csvRows.map(row => row.join(',')).join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'logs.csv');
+    document.body.appendChild(link); 
+    link.click();
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -108,6 +129,7 @@ export default function Home() {
         )}
         <h1 className="text-2xl font-bold mb-4">User Logs</h1>
         <LogFilter logs={logs} setFilteredLogs={setFilteredLogs} />
+        <button onClick={exportToCSV} className="bg-red-500 text-white my-1 px-1 py-1 rounded">Export to CSV</button>
         <table className="table-auto w-full">
           <thead>
             <tr>
