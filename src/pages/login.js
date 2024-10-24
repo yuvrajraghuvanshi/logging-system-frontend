@@ -61,7 +61,7 @@ export default function Login() {
         <button className="bg-blue-500 text-white px-4 py-2 rounded">
           Login
         </button>
-        <p>Don't have a account <button className="bg-green-400 text-white px-4 py-2 rounded" onClick={()=>{
+        <p>Don&apos;t have a account <button className="bg-green-400 text-white px-4 py-2 rounded" onClick={()=>{
             router.push('/register')
           
         }}>Register</button></p>
